@@ -254,7 +254,7 @@ void show_date(struct tm* time, int field)
   int c[NFIELD]={eadk_color_black};
   c[field]=0xfda6;
 
-  eadk_display_push_rect_uniform((eadk_rect_t){0,EADK_SCREEN_WIDTH,EADK_SCREEN_HEIGHT-18,EADK_SCREEN_WIDTH,18}, 0x0);
+  eadk_display_push_rect_uniform((eadk_rect_t){0,EADK_SCREEN_HEIGHT-18,EADK_SCREEN_WIDTH,18}, 0x0);
 
 
   int x=60;  
