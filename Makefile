@@ -38,17 +38,17 @@ LDFLAGS += -flinker-output=nolto-rel
 endif
 
 .PHONY: build
-build: $(BUILD_DIR)/app.nwa
+build: $(BUILD_DIR)/luna.nwa
 
 .PHONY: check
-check: $(BUILD_DIR)/app.bin
+check: $(BUILD_DIR)/luna.bin
 
 .PHONY: run
-run: $(BUILD_DIR)/app.nwa
+run: $(BUILD_DIR)/luna.nwa
 	@echo "INSTALL $<"
 	$(Q) $(NWLINK) install-nwa $<
 
-$(BUILD_DIR)/app.nwa: $(call object_for,$(src)) $(BUILD_DIR)/icon.o
+$(BUILD_DIR)/luna.nwa: $(call object_for,$(src)) $(BUILD_DIR)/icon.o
 	@echo "LD      $@"
 	$(Q) $(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@ -lm
 
