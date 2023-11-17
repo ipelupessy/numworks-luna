@@ -186,6 +186,8 @@ void show_pic(struct tm* time)
   double phase,jd,cphase, aom, cdist, cangdia, csund, csuang;
   struct tm utc;
 
+  eadk_display_push_rect_uniform((eadk_rect_t){0,0,EADK_SCREEN_WIDTH,EADK_SCREEN_HEIGHT}, 0x0);
+
   utc=tm2utc(time,utc_offset);
   jd=jtime(&utc);
   phase=moon_phase(jd, &cphase, &aom, &cdist, &cangdia, &csund, &csuang);
