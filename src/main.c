@@ -356,29 +356,37 @@ void mainloop() {
     if(ev==eadk_event_left || ev==eadk_event_right )
     {
       current_field=new_active_field(ev, current_field);
+      if (mode==1) 
+        update=1;
+      else
+        show_date(&time,current_field);
       mode=0;
-      update=1;
     }
+    
     if(ev==eadk_event_up || ev==eadk_event_down )
     {
       update_time(ev, &time, current_field);
       mode=0;
       update=1;
     }
+    
     if(ev==eadk_event_ok) 
     {
       mode=1-mode;
       update=1;
     }
+    
     if(update)
     {
-      show_date(&time,current_field);
       if(mode) 
-        {
-          show_pic(&time);
-        }
+      {
+        show_pic(&time);
+      }
       else
+      {
+        show_date(&time,current_field);
         show_data(&time);
+      }
       update=0;
     }
   }
