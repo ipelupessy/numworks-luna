@@ -18,11 +18,11 @@ src = $(addprefix src/,\
 CFLAGS = -std=c99
 CFLAGS += $(shell $(NWLINK) eadk-cflags)
 CFLAGS += -Os -Wall
-CFLAGS += -ggdb
-LDFLAGS = -Wl,--relocatable
+#~ CFLAGS += -ggdb
+LDFLAGS = -s -Wl,--relocatable
 LDFLAGS += -nostartfiles
 LDFLAGS += --specs=nano.specs
-# LDFLAGS += --specs=nosys.specs # Alternatively, use full-fledged newlib
+#~ LDFLAGS += --specs=nosys.specs # Alternatively, use full-fledged newlib
 
 ifeq ($(LINK_GC),1)
 CFLAGS += -fdata-sections -ffunction-sections

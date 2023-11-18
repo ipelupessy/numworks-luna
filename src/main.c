@@ -36,6 +36,13 @@ const uint32_t eadk_api_level  __attribute__((section(".rodata.eadk_api_level"))
 #define NFIELD 5 // 0=hr, 1=min,2=day,3=month,4=yr
 const int utc_offset=0;
 
+void statuslinemsg(const char * msg) {
+  uint16_t c=0xfda6;
+  eadk_display_push_rect_uniform((eadk_rect_t){0,0,320,18}, c);
+  eadk_display_draw_string(msg, (eadk_point_t){160-5*strlen(msg), 0}, true, eadk_color_white, c);
+}
+
+
 int get_frame_no(double phase,int nframe, float *frame_phase)
 {
     int i,no;
@@ -80,13 +87,13 @@ void show_data(struct tm* time)
     jd=jtime(&utc);
     phase=moon_phase(jd, &cphase, &aom, &cdist, &cangdia, &csund, &csuang);
 
-    eadk_display_push_rect_uniform((eadk_rect_t){0,0,EADK_SCREEN_WIDTH,EADK_SCREEN_HEIGHT-18}, 0x0);
+    eadk_display_push_rect_uniform((eadk_rect_t){0,18,EADK_SCREEN_WIDTH,EADK_SCREEN_HEIGHT-36}, 0x0);
 
     iphase=8*phase+0.5;
     iphase=iphase%8;
 
     int x=10;  
-    int y=18;
+    int y=20;
     
     sprintf(buf, "Julian date:");
     eadk_display_draw_string(buf, (eadk_point_t){x, y}, true, 0xfda6, eadk_color_black);
@@ -145,7 +152,7 @@ void show_data(struct tm* time)
     eadk_display_draw_string(buf, (eadk_point_t){x, ynew}, true, 0xfda6, eadk_color_black);
     y+=20;      
 
-    sprintf(buf, "   %02d/%02d/%04d, %02d:%02d:%02d\n",
+    sprintf(buf, "   %02d/%02d/%04d, %02d:%02d:%02d (UTC)",
      tmnew.tm_mday,tmnew.tm_mon+1,tmnew.tm_year+1900,tmnew.tm_hour, tmnew.tm_min, tmnew.tm_sec);
     eadk_display_draw_string(buf, (eadk_point_t){x, ynew+20}, true, 0xfda6, eadk_color_black);
     y+=20;      
@@ -154,7 +161,7 @@ void show_data(struct tm* time)
     eadk_display_draw_string(buf, (eadk_point_t){x, yfull}, true, 0xfda6, eadk_color_black);
     y+=20;
 
-    sprintf(buf, "   %02d/%02d/%04d, %02d:%02d:%02d",
+    sprintf(buf, "   %02d/%02d/%04d, %02d:%02d:%02d (UTC)",
      tmfull.tm_mday,tmfull.tm_mon+1,tmfull.tm_year+1900, tmfull.tm_hour, tmfull.tm_min, tmfull.tm_sec);
     eadk_display_draw_string(buf, (eadk_point_t){x, yfull+20}, true, 0xfda6, eadk_color_black);
     y+=20;
@@ -256,10 +263,11 @@ void show_date(struct tm* time, int field)
   int c[NFIELD]={eadk_color_black};
   c[field]=0xfda6;
 
+  statuslinemsg("Luna");
   eadk_display_push_rect_uniform((eadk_rect_t){0,EADK_SCREEN_HEIGHT-18,EADK_SCREEN_WIDTH,18}, 0x0);
 
 
-  int x=60;  
+  int x=50;  
   sprintf(buf, "%02d",time->tm_hour);
   eadk_display_draw_string(buf, (eadk_point_t){x, 222}, true, eadk_color_white, c[0]);
   x+=10*strlen(buf);
@@ -272,7 +280,7 @@ void show_date(struct tm* time, int field)
   eadk_display_draw_string(buf, (eadk_point_t){x, 222}, true, eadk_color_white, c[1]);
   x+=10*strlen(buf);
 
-  strcpy(buf,"(GMT) ");
+  strcpy(buf," (UTC) ");
   eadk_display_draw_string(buf, (eadk_point_t){x, 222}, true, eadk_color_white, eadk_color_black);
   x+=10*strlen(buf);
 
@@ -376,11 +384,6 @@ void mainloop() {
   }
 }
 
-void statuslinemsg(const char * msg) {
-  uint16_t c=0xfda6;
-  eadk_display_push_rect_uniform((eadk_rect_t){0,0,320,18}, c);
-  eadk_display_draw_string(msg, (eadk_point_t){0, 0}, (strlen(msg)<=25), eadk_color_white, c);
-}
 
 
 int main(int argc, char * argv[]) {
