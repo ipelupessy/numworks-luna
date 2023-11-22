@@ -39,7 +39,7 @@ const int utc_offset=0;
 void statuslinemsg(const char * msg) {
   uint16_t c=0xfda6;
   eadk_display_push_rect_uniform((eadk_rect_t){0,0,320,18}, c);
-  eadk_display_draw_string(msg, (eadk_point_t){160-(int)(3.5*strlen(msg)), 0}, false, eadk_color_white, c);
+  eadk_display_draw_string(msg, (eadk_point_t){160-(int)(3.5*strlen(msg)), 3}, false, eadk_color_white, c);
 }
 
 
